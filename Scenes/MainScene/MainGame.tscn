@@ -1,0 +1,2021 @@
+[gd_scene load_steps=97 format=2]
+
+[ext_resource path="res://Images/UI/NinepatchBox.png" type="Texture" id=1]
+[ext_resource path="res://Images/Environment Object/Cards.png" type="Texture" id=2]
+[ext_resource path="res://Font/DungeonFont.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scenes/GUIScene/BattleBoxHolder.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Images/Characters/HurtPlayerFace.png" type="Texture" id=5]
+[ext_resource path="res://Images/Environment Object/MapItems.png" type="Texture" id=6]
+[ext_resource path="res://Images/Characters/PlayerFace.png" type="Texture" id=7]
+[ext_resource path="res://Images/UI/PlayerHealthUnder.png" type="Texture" id=8]
+[ext_resource path="res://Images/UI/PlayerHealthProgress.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/EnviromentObjectScript/AttackCardScript.gd" type="Script" id=10]
+[ext_resource path="res://Scripts/EnviromentObjectScript/ActCardScript.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/EnviromentObjectScript/HealCardScript.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/EnviromentObjectScript/RunCardScript.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/CharacterScript/PlayerInfoHolderScript.gd" type="Script" id=14]
+[ext_resource path="res://Images/Characters/HealPlayerFace.png" type="Texture" id=15]
+[ext_resource path="res://Scripts/UIScript/TextBoxInputScript.gd" type="Script" id=16]
+[ext_resource path="res://Scripts/UIScript/CommandProcessorScript.gd" type="Script" id=17]
+[ext_resource path="res://Images/Environment Object/AttackNoCards.png" type="Texture" id=18]
+[ext_resource path="res://Scenes/GUIScene/Camera2DScript.gd" type="Script" id=19]
+[ext_resource path="res://Scenes/MainScene/MapWorld.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Images/Environment Object/InstructionPage.png" type="Texture" id=21]
+[ext_resource path="res://Scripts/CharacterScript/CardHolderScript.gd" type="Script" id=22]
+[ext_resource path="res://Scripts/EnviromentObjectScript/AttackCard1Script.gd" type="Script" id=23]
+[ext_resource path="res://Scripts/EnviromentObjectScript/AttackCard3Script.gd" type="Script" id=24]
+[ext_resource path="res://Scripts/EnviromentObjectScript/AttackCard2Script.gd" type="Script" id=25]
+[ext_resource path="res://Scripts/EnviromentObjectScript/AttackCard4Script.gd" type="Script" id=26]
+[ext_resource path="res://Images/Environment Object/CardBacklogo.png" type="Texture" id=27]
+[ext_resource path="res://Scripts/UIScript/NormalTextHandlerScript.gd" type="Script" id=28]
+[ext_resource path="res://Scripts/UIScript/MapCameraScript.gd" type="Script" id=29]
+[ext_resource path="res://Scripts/UIScript/GameOverScreenScript.gd" type="Script" id=30]
+[ext_resource path="res://Scripts/UIScript/InstructionButtonSript.gd" type="Script" id=31]
+
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 3 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 7 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=28]
+animations = [ {
+"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 26 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ), SubResource( 25 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 15 ), ExtResource( 15 ) ],
+"loop": false,
+"name": "Heal",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 51 ) ],
+"loop": false,
+"name": "Hurt",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=73]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=72]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=13]
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxEmpty" id=15]
+
+[sub_resource type="StyleBoxEmpty" id=16]
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="DynamicFont" id=17]
+size = 15
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxEmpty" id=20]
+
+[sub_resource type="StyleBoxEmpty" id=21]
+
+[sub_resource type="StyleBoxEmpty" id=22]
+
+[sub_resource type="StyleBoxEmpty" id=23]
+
+[sub_resource type="StyleBoxEmpty" id=24]
+
+[sub_resource type="Theme" id=19]
+VScrollBar/styles/grabber = SubResource( 20 )
+VScrollBar/styles/grabber_highlight = SubResource( 21 )
+VScrollBar/styles/grabber_pressed = SubResource( 22 )
+VScrollBar/styles/scroll = SubResource( 23 )
+VScrollBar/styles/scroll_focus = SubResource( 24 )
+
+[sub_resource type="Shader" id=53]
+code = "shader_type canvas_item;
+
+uniform int amount = 40;
+
+void fragment()
+{
+	vec2 grid_uv = round(UV * float(amount)) / float(amount);
+	
+	vec4 text = texture(TEXTURE, grid_uv);
+	
+	COLOR = text;
+}"
+
+[sub_resource type="ShaderMaterial" id=54]
+shader = SubResource( 53 )
+shader_param/amount = 64
+
+[sub_resource type="Animation" id=55]
+resource_name = "BattleFadeIn"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ViewportContainer:material:shader_param/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 64, 48, 39, 32, 23, 7 ]
+}
+
+[sub_resource type="Animation" id=58]
+resource_name = "BattleFadeOut"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ViewportContainer:material:shader_param/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 23, 32, 39, 48, 64 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=56]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ViewportContainer:material:shader_param/amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 64 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="DynamicFont" id=7]
+size = 15
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=59]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=60]
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxEmpty" id=61]
+
+[sub_resource type="StyleBoxEmpty" id=62]
+
+[sub_resource type="StyleBoxEmpty" id=63]
+
+[sub_resource type="StyleBoxEmpty" id=64]
+
+[sub_resource type="StyleBoxEmpty" id=65]
+
+[sub_resource type="StyleBoxEmpty" id=66]
+
+[sub_resource type="StyleBoxEmpty" id=67]
+
+[sub_resource type="StyleBoxEmpty" id=68]
+
+[sub_resource type="StyleBoxEmpty" id=69]
+
+[sub_resource type="StyleBoxEmpty" id=70]
+
+[sub_resource type="Shader" id=71]
+code = "/*
+Shader from Godot Shaders - the free shader library.
+godotshaders.com/shader/VHS-and-CRT-monitor-effect
+
+This shader is under CC0 license. Feel free to use, improve and 
+change this shader according to your needs and consider sharing 
+the modified result to godotshaders.com.
+*/
+
+shader_type canvas_item;
+
+//*** IMPORTANT! ***/ 
+// - If you are using this shader to affect the node it is applied to set 'overlay' to false (unchecked in the instepctor).
+// - If you are using this shader as an overlay, and want the shader to affect the nodes below in the Scene hierarchy,
+//   set 'overlay' to true (checked in the inspector).
+// On Mac there is potentially a bug causing this to not work properly. If that is the case and you want to use the shader as an overlay
+// change all \"overlay ? SCREEN_TEXTURE : TEXTURE\" to only \"SCREEN_TEXTURE\" on lines 129-140, and \"vec2 uv = overlay ? warp(SCREEN_UV) : warp(UV);\"
+// to \"vec2 uv = warp(SCREEN_UV);\" on line 98.
+uniform bool overlay = false;
+
+uniform float scanlines_opacity : hint_range(0.0, 1.0) = 0.4;
+uniform float scanlines_width : hint_range(0.0, 0.5) = 0.25;
+uniform float grille_opacity : hint_range(0.0, 1.0) = 0.3;
+uniform vec2 resolution = vec2(640.0, 480.0); // Set the number of rows and columns the texture will be divided in. Scanlines and grille will make a square based on these values
+
+uniform bool pixelate = true; // Fill each square (\"pixel\") with a sampled color, creating a pixel look and a more accurate representation of how a CRT monitor would work.
+
+uniform bool roll = true;
+uniform float roll_speed = 8.0; // Positive values are down, negative are up
+uniform float roll_size : hint_range(0.0, 100.0) = 15.0;
+uniform float roll_variation : hint_range(0.1, 5.0) = 1.8; // This valie is not an exact science. You have to play around with the value to find a look you like. How this works is explained in the code below.
+uniform float distort_intensity : hint_range(0.0, 0.2) = 0.05; // The distortion created by the rolling effect.
+
+uniform float noise_opacity : hint_range(0.0, 1.0) = 0.4;
+uniform float noise_speed = 5.0; // There is a movement in the noise pattern that can be hard to see first. This sets the speed of that movement.
+
+uniform float static_noise_intensity : hint_range(0.0, 1.0) = 0.06;
+
+uniform float aberration : hint_range(-1.0, 1.0) = 0.03; // Chromatic aberration, a distortion on each color channel.
+uniform float brightness = 1.4; // When adding scanline gaps and grille the image can get very dark. Brightness tries to compensate for that.
+uniform bool discolor = true; // Add a discolor effect simulating a VHS
+
+uniform float warp_amount :hint_range(0.0, 5.0) = 1.0; // Warp the texture edges simulating the curved glass of a CRT monitor or old TV.
+uniform bool clip_warp = false;
+
+uniform float vignette_intensity = 0.4; // Size of the vignette, how far towards the middle it should go.
+uniform float vignette_opacity : hint_range(0.0, 1.0) = 0.5;
+
+// Used by the noise functin to generate a pseudo random value between 0.0 and 1.0
+vec2 random(vec2 uv){
+    uv = vec2( dot(uv, vec2(127.1,311.7) ),
+               dot(uv, vec2(269.5,183.3) ) );
+    return -1.0 + 2.0 * fract(sin(uv) * 43758.5453123);
+}
+
+// Generate a Perlin noise used by the distortion effects
+float noise(vec2 uv) {
+    vec2 uv_index = floor(uv);
+    vec2 uv_fract = fract(uv);
+
+    vec2 blur = smoothstep(0.0, 1.0, uv_fract);
+
+    return mix( mix( dot( random(uv_index + vec2(0.0,0.0) ), uv_fract - vec2(0.0,0.0) ),
+                     dot( random(uv_index + vec2(1.0,0.0) ), uv_fract - vec2(1.0,0.0) ), blur.x),
+                mix( dot( random(uv_index + vec2(0.0,1.0) ), uv_fract - vec2(0.0,1.0) ),
+                     dot( random(uv_index + vec2(1.0,1.0) ), uv_fract - vec2(1.0,1.0) ), blur.x), blur.y) * 0.5 + 0.5;
+}
+
+// Takes in the UV and warps the edges, creating the spherized effect
+vec2 warp(vec2 uv){
+	vec2 delta = uv - 0.5;
+	float delta2 = dot(delta.xy, delta.xy);
+	float delta4 = delta2 * delta2;
+	float delta_offset = delta4 * warp_amount;
+	
+	return uv + delta * delta_offset;
+}
+
+// Adds a black border to hide stretched pixel created by the warp effect
+float border (vec2 uv){
+	float radius = min(warp_amount, 0.08);
+	radius = max(min(min(abs(radius * 2.0), abs(1.0)), abs(1.0)), 1e-5);
+	vec2 abs_uv = abs(uv * 2.0 - 1.0) - vec2(1.0, 1.0) + radius;
+	float dist = length(max(vec2(0.0), abs_uv)) / radius;
+	float square = smoothstep(0.96, 1.0, dist);
+	return clamp(1.0 - square, 0.0, 1.0);
+}
+
+// Adds a vignette shadow to the edges of the image
+float vignette(vec2 uv){
+	uv *= 1.0 - uv.xy;
+	float vignette = uv.x * uv.y * 15.0;
+	return pow(vignette, vignette_intensity * vignette_opacity);
+}
+
+void fragment()
+{
+	vec2 uv = overlay ? warp(SCREEN_UV) : warp(UV); // Warp the uv. uv will be used in most cases instead of UV to keep the warping
+	vec2 text_uv = uv;
+	vec2 roll_uv = vec2(0.0);
+	float time = roll ? TIME : 0.0;
+	
+
+	// Pixelate the texture based on the given resolution.
+	if (pixelate)
+	{
+		text_uv = ceil(uv * resolution) / resolution;
+	}
+	
+	// Create the rolling effect. We need roll_line a bit later to make the noise effect.
+	// That is why this runs if roll is true OR noise_opacity is over 0.
+	float roll_line = 0.0;
+	if (roll || noise_opacity > 0.0)
+	{
+		// Create the areas/lines where the texture will be distorted.
+		roll_line = smoothstep(0.3, 0.9, sin(uv.y * roll_size - (time * roll_speed) ) );
+		// Create more lines of a different size and apply to the first set of lines. This creates a bit of variation.
+		roll_line *= roll_line * smoothstep(0.3, 0.9, sin(uv.y * roll_size * roll_variation - (time * roll_speed * roll_variation) ) );
+		// Distort the UV where where the lines are
+		roll_uv = vec2(( roll_line * distort_intensity * (1.-UV.x)), 0.0);
+	}
+	
+	vec4 text;
+	if (roll)
+	{
+		// If roll is true distort the texture with roll_uv. The texture is split up into RGB to 
+		// make some chromatic aberration. We apply the aberration to the red and green channels accorging to the aberration parameter
+		// and intensify it a bit in the roll distortion.
+		text.r = texture(SCREEN_TEXTURE, text_uv + roll_uv * 0.8 + vec2(aberration, 0.0) * .1).r;
+		text.g = texture(SCREEN_TEXTURE, text_uv + roll_uv * 1.2 - vec2(aberration, 0.0) * .1 ).g;
+		text.b = texture(SCREEN_TEXTURE, text_uv + roll_uv).b;
+		text.a = 1.0;
+	}
+	else
+	{
+		// If roll is false only apply the aberration without any distorion. The aberration values are very small so the .1 is only 
+		// to make the slider in the Inspector less sensitive.
+		text.r = texture(SCREEN_TEXTURE, text_uv + vec2(aberration, 0.0) * .1).r;
+		text.g = texture(SCREEN_TEXTURE, text_uv - vec2(aberration, 0.0) * .1).g;
+		text.b = texture(SCREEN_TEXTURE, text_uv).b;
+		text.a = 1.0;
+	}
+	
+	float r = text.r;
+	float g = text.g;
+	float b = text.b;
+	
+	uv = warp(UV);
+	
+	// CRT monitors don't have pixels but groups of red, green and blue dots or lines, called grille. We isolate the texture's color channels 
+	// and divide it up in 3 offsetted lines to show the red, green and blue colors next to each other, with a small black gap between.
+	if (grille_opacity > 0.0){
+		
+		float g_r = smoothstep(0.85, 0.95, abs(sin(uv.x * (resolution.x * 3.14159265))));
+		r = mix(r, r * g_r, grille_opacity);
+		
+		float g_g = smoothstep(0.85, 0.95, abs(sin(1.05 + uv.x * (resolution.x * 3.14159265))));
+		g = mix(g, g * g_g, grille_opacity);
+		
+		float b_b = smoothstep(0.85, 0.95, abs(sin(2.1 + uv.x * (resolution.x * 3.14159265))));
+		b = mix(b, b * b_b, grille_opacity);
+		
+	}
+	
+	// Apply the grille to the texture's color channels and apply Brightness. Since the grille and the scanlines (below) make the image very dark you
+	// can compensate by increasing the brightness.
+	text.r = clamp(r * brightness, 0.0, 1.0);
+	text.g = clamp(g * brightness, 0.0, 1.0);
+	text.b = clamp(b * brightness, 0.0, 1.0);
+	
+	// Scanlines are the horizontal lines that make up the image on a CRT monitor. 
+	// Here we are actual setting the black gap between each line, which I guess is not the right definition of the word, but you get the idea  
+	float scanlines = 0.5;
+	if (scanlines_opacity > 0.0)
+	{
+		// Same technique as above, create lines with sine and applying it to the texture. Smoothstep to allow setting the line size.
+		scanlines = smoothstep(scanlines_width, scanlines_width + 0.5, abs(sin(uv.y * (resolution.y * 3.14159265))));
+		text.rgb = mix(text.rgb, text.rgb * vec3(scanlines), scanlines_opacity);
+	}
+	
+	// Apply the banded noise.
+	if (noise_opacity > 0.0)
+	{
+		// Generate a noise pattern that is very stretched horizontally, and animate it with noise_speed
+		float noise = smoothstep(0.4, 0.5, noise(uv * vec2(2.0, 200.0) + vec2(10.0, (TIME * (noise_speed))) ) );
+		
+		// We use roll_line (set above) to define how big the noise should be vertically (multiplying cuts off all black parts).
+		// We also add in some basic noise with random() to break up the noise pattern above. The noise is sized according to 
+		// the resolution value set in the inspector. If you don't like this look you can 
+		// change \"ceil(uv * resolution) / resolution\" to only \"uv\" to make it less pixelated. Or multiply resolution with som value
+		// greater than 1.0 to make them smaller.
+		roll_line *= noise * scanlines * clamp(random((ceil(uv * resolution) / resolution) + vec2(TIME * 0.8, 0.0)).x + 0.8, 0.0, 1.0);
+		// Add it to the texture based on noise_opacity
+		text.rgb = clamp(mix(text.rgb, text.rgb + roll_line, noise_opacity), vec3(0.0), vec3(1.0));
+	}
+	
+	// Apply static noise by generating it over the whole screen in the same way as above
+	if (static_noise_intensity > 0.0)
+	{
+		text.rgb += clamp(random((ceil(uv * resolution) / resolution) + fract(TIME)).x, 0.0, 1.0) * static_noise_intensity;
+	}
+	
+	// Apply a black border to hide imperfections caused by the warping.
+	// Also apply the vignette
+	text.rgb *= border(uv);
+	text.rgb *= vignette(uv);
+	// Hides the black border and make that area transparent. Good if you want to add the the texture on top an image of a TV or monitor.
+	if (clip_warp)
+	{
+		text.a = border(uv);
+	}
+	
+	// Apply discoloration to get a VHS look (lower saturation and higher contrast)
+	// You can play with the values below or expose them in the Inspector.
+	float saturation = 0.5;
+	float contrast = 1.2;
+	if (discolor)
+	{
+		// Saturation
+		vec3 greyscale = vec3(text.r + text.g + text.b) / 3.;
+		text.rgb = mix(text.rgb, greyscale, saturation);
+		
+		// Contrast
+		float midpoint = pow(0.5, 2.2);
+		text.rgb = (text.rgb - vec3(midpoint)) * contrast + midpoint;
+	}
+	
+	COLOR = text;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 71 )
+shader_param/overlay = true
+shader_param/scanlines_opacity = 0.01
+shader_param/scanlines_width = 0.0
+shader_param/grille_opacity = 0.0
+shader_param/resolution = Vector2( 5120, 5120 )
+shader_param/pixelate = true
+shader_param/roll = true
+shader_param/roll_speed = 2.0
+shader_param/roll_size = 13.0
+shader_param/roll_variation = 5.0
+shader_param/distort_intensity = 0.002
+shader_param/noise_opacity = 0.034
+shader_param/noise_speed = 5.0
+shader_param/static_noise_intensity = 0.06
+shader_param/aberration = 0.005
+shader_param/brightness = 1.4
+shader_param/discolor = false
+shader_param/warp_amount = 1.0
+shader_param/clip_warp = false
+shader_param/vignette_intensity = 0.4
+shader_param/vignette_opacity = 0.275
+
+[sub_resource type="DynamicFont" id=50]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=11]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=49]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=29]
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=30]
+resource_name = "Flip"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=41]
+resource_name = "FlipReverse"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=32]
+resource_name = "Flip"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardBack:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardFront:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=42]
+resource_name = "FlipReverse"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardBack:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardFront:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=33]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardBack:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardFront:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=34]
+resource_name = "Flip"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=43]
+resource_name = "FlipReverse"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=35]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "Flip"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=44]
+resource_name = "FlipReverse"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AttackNoCardFront:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackNoCardBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=47]
+resource_name = "CardsDown"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -48, 13 ), Vector2( -48, 71 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../TextBoxHolder:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 141, 104 ), Vector2( 141, 156 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../TextBoxHolder/TextBoxInput:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 85 ), Vector2( 3, 137 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../TextBoxHolder/ScrollContainer:rect_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 133, 82 ), Vector2( 133, 132 ) ]
+}
+
+[sub_resource type="Animation" id=48]
+resource_name = "CardsUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -48, 71 ), Vector2( -48, 13 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../TextBoxHolder:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 141, 156 ), Vector2( 141, 104 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../TextBoxHolder/ScrollContainer:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 133, 132 ), Vector2( 133, 82 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../TextBoxHolder/TextBoxInput:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 137 ), Vector2( 3, 85 ) ]
+}
+
+[sub_resource type="Animation" id=38]
+resource_name = "ExchangeAttack"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ChoiceCardHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 64.97 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackCardHolder:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 64.97 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+resource_name = "ExchangeAttackReverse"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ChoiceCardHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 64.97 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackCardHolder:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 64.97 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("ChoiceCardHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AttackCardHolder:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 64.97 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -48, 71 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../TextBoxHolder:rect_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 141, 156 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../TextBoxHolder/TextBoxInput:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 3, 137 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../TextBoxHolder/ScrollContainer:rect_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 133, 132 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:canPick")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("ChoiceCardHolder/AttackCard:canClick")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Environment" id=4]
+background_mode = 4
+glow_intensity = 1.56
+glow_strength = 0.37
+glow_bloom = 0.13
+glow_blend_mode = 0
+
+[sub_resource type="Animation" id=45]
+resource_name = "FadeOut"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0196078, 0.0235294, 0.0431373, 1 ), Color( 0.0196078, 0.0235294, 0.0431373, 0 ) ]
+}
+
+[sub_resource type="Animation" id=46]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.0196078, 0.0235294, 0.0431373, 1 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=52]
+extents = Vector2( 6, 6.5 )
+
+[sub_resource type="DynamicFont" id=57]
+font_data = ExtResource( 3 )
+
+[node name="MainGame" type="Node2D"]
+
+[node name="CommandProcessor" type="Node" parent="."]
+script = ExtResource( 17 )
+
+[node name="NormalTextHandler" type="Node" parent="."]
+script = ExtResource( 28 )
+
+[node name="BlackBack" type="ColorRect" parent="."]
+margin_left = -425.0
+margin_top = -334.0
+margin_right = 475.0
+margin_bottom = 366.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfoHolder" type="Node2D" parent="."]
+script = ExtResource( 14 )
+
+[node name="PlayerName" type="Label" parent="PlayerInfoHolder"]
+margin_left = -86.0
+margin_top = -85.0
+margin_right = 25.0
+margin_bottom = -68.0
+rect_scale = Vector2( 0.9, 0.9 )
+custom_fonts/font = SubResource( 8 )
+text = "Edie Guilliman"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerFace" type="AnimatedSprite" parent="PlayerInfoHolder"]
+position = Vector2( -97, -79 )
+frames = SubResource( 28 )
+frame = 2
+playing = true
+
+[node name="PlayerHealthBarUnder" type="TextureProgress" parent="PlayerInfoHolder"]
+margin_left = 18.0
+margin_top = -88.0
+margin_right = 98.0
+margin_bottom = -48.0
+max_value = 40.0
+value = 40.0
+rounded = true
+texture_under = ExtResource( 8 )
+texture_progress = ExtResource( 9 )
+tint_progress = Color( 0.839216, 0.160784, 0.329412, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerHealthBar" type="TextureProgress" parent="PlayerInfoHolder"]
+margin_left = 18.0
+margin_top = -88.0
+margin_right = 98.0
+margin_bottom = -48.0
+max_value = 40.0
+value = 40.0
+rounded = true
+texture_progress = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HPNum" type="Label" parent="PlayerInfoHolder/PlayerHealthBar"]
+margin_left = 28.0
+margin_top = 9.0
+margin_right = 68.0
+margin_bottom = 26.0
+rect_scale = Vector2( 0.65, 0.65 )
+custom_fonts/font = SubResource( 73 )
+text = "25/25"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="PlayerInfoHolder/PlayerHealthBar"]
+
+[node name="HPLabel" type="Label" parent="PlayerInfoHolder"]
+margin_left = -5.0
+margin_top = -86.0
+margin_right = 16.0
+margin_bottom = -69.0
+custom_fonts/font = SubResource( 72 )
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextBoxHolder" type="NinePatchRect" parent="."]
+margin_left = -107.0
+margin_top = -71.0
+margin_right = 34.0
+margin_bottom = 85.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+region_rect = Rect2( -0.410172, 0, 25.1802, 24.3113 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextBoxInput" type="NinePatchRect" parent="TextBoxHolder"]
+margin_left = 3.0
+margin_top = 137.0
+margin_right = 138.0
+margin_bottom = 153.0
+texture = ExtResource( 1 )
+region_rect = Rect2( -0.410172, 0, 25.1802, 24.3113 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input" type="LineEdit" parent="TextBoxHolder/TextBoxInput"]
+margin_left = 23.0
+margin_top = 4.0
+margin_right = 237.0
+margin_bottom = 23.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 13 )
+custom_styles/read_only = SubResource( 15 )
+custom_styles/focus = SubResource( 16 )
+custom_styles/normal = SubResource( 14 )
+max_length = 35
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TextBoxHolder/TextBoxInput"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 44.0
+margin_bottom = 20.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 17 )
+text = "Input:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TextBoxHolder"]
+anchor_left = 0.028
+anchor_top = 0.038
+anchor_right = 0.028
+anchor_bottom = 0.038
+margin_left = 0.0520036
+margin_top = -1.928
+margin_right = 133.052
+margin_bottom = 130.072
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 19 )
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HistoryRows" type="VBoxContainer" parent="TextBoxHolder/ScrollContainer"]
+margin_right = 133.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 78 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 4
+
+[node name="BattleBoxHolder" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="MapBoxHolder2" type="NinePatchRect" parent="."]
+margin_left = 37.0
+margin_top = -70.0
+margin_right = 106.0
+margin_bottom = 33.0
+texture = ExtResource( 1 )
+region_rect = Rect2( -0.410172, 0, 24.7529, 24.3113 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ViewportContainer" type="ViewportContainer" parent="MapBoxHolder2"]
+material = SubResource( 54 )
+margin_left = 6.0
+margin_top = 23.0
+margin_right = 70.0
+margin_bottom = 87.0
+rect_scale = Vector2( 0.9, 0.9 )
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="MapBoxHolder2/ViewportContainer"]
+size = Vector2( 64, 64 )
+handle_input_locally = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="MapCamera" type="Camera2D" parent="MapBoxHolder2/ViewportContainer/Viewport"]
+position = Vector2( 408, 704 )
+zoom = Vector2( 0.071, 0.091 )
+script = ExtResource( 29 )
+
+[node name="MapWorld" parent="MapBoxHolder2/ViewportContainer/Viewport" instance=ExtResource( 20 )]
+
+[node name="Creep" parent="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/CharacterHolder" index="0"]
+frame = 1
+
+[node name="Guilt" parent="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/CharacterHolder" index="1"]
+frame = 3
+
+[node name="Reckoning" parent="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/CharacterHolder" index="7"]
+frame = 2
+
+[node name="MapItem" parent="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/MapOjectHolder" index="11"]
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MapBoxHolder2"]
+anims/BattleFadeIn = SubResource( 55 )
+anims/BattleFadeOut = SubResource( 58 )
+anims/RESET = SubResource( 56 )
+
+[node name="StatBoxHolder" type="NinePatchRect" parent="."]
+margin_left = 37.0
+margin_top = 34.0
+margin_right = 106.0
+margin_bottom = 85.0
+texture = ExtResource( 1 )
+region_rect = Rect2( -0.410172, 0, 24.7529, 24.3113 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttackStat" type="Label" parent="StatBoxHolder"]
+margin_left = 5.0
+margin_top = 4.0
+margin_right = 65.0
+margin_bottom = 22.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = SubResource( 7 )
+text = "ATTACK: 30"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DefenceStat" type="Label" parent="StatBoxHolder"]
+margin_left = 5.0
+margin_top = 15.0
+margin_right = 65.0
+margin_bottom = 33.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = SubResource( 7 )
+text = "DEFENCE: 30"
+
+[node name="SpeedStat" type="Label" parent="StatBoxHolder"]
+margin_left = 5.0
+margin_top = 26.0
+margin_right = 72.0
+margin_bottom = 44.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = SubResource( 7 )
+text = "SPEED: 30"
+
+[node name="VitalityStat" type="Label" parent="StatBoxHolder"]
+margin_left = 5.0
+margin_top = 37.0
+margin_right = 112.0
+margin_bottom = 55.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = SubResource( 7 )
+text = "VITALITY: 30"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameOverScreen" type="ColorRect" parent="CanvasLayer"]
+pause_mode = 2
+visible = false
+margin_right = 900.0
+margin_bottom = 700.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+script = ExtResource( 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/GameOverScreen"]
+margin_left = 150.0
+margin_top = 206.0
+margin_right = 233.0
+margin_bottom = 223.0
+rect_scale = Vector2( 7, 7 )
+custom_colors/font_color = Color( 0.839216, 0.160784, 0.329412, 1 )
+custom_fonts/font = SubResource( 59 )
+text = "GAME OVER"
+
+[node name="getUpButton" type="Button" parent="CanvasLayer/GameOverScreen"]
+margin_left = 250.0
+margin_top = 288.0
+margin_right = 325.0
+margin_bottom = 311.0
+rect_scale = Vector2( 5, 5 )
+custom_colors/font_color_hover = Color( 0.501961, 0.639216, 0.878431, 1 )
+custom_colors/font_color_pressed = Color( 0.337255, 0.341176, 0.74902, 1 )
+custom_fonts/font = SubResource( 60 )
+custom_styles/hover = SubResource( 61 )
+custom_styles/pressed = SubResource( 62 )
+custom_styles/focus = SubResource( 63 )
+custom_styles/disabled = SubResource( 64 )
+custom_styles/normal = SubResource( 65 )
+text = "Get Up"
+flat = true
+
+[node name="GiveUpButton" type="Button" parent="CanvasLayer/GameOverScreen"]
+margin_left = 253.0
+margin_top = 366.0
+margin_right = 328.0
+margin_bottom = 389.0
+rect_scale = Vector2( 5, 5 )
+custom_colors/font_color_hover = Color( 0.501961, 0.639216, 0.878431, 1 )
+custom_colors/font_color_pressed = Color( 0.337255, 0.341176, 0.74902, 1 )
+custom_fonts/font = SubResource( 60 )
+custom_styles/hover = SubResource( 66 )
+custom_styles/pressed = SubResource( 67 )
+custom_styles/focus = SubResource( 68 )
+custom_styles/disabled = SubResource( 69 )
+custom_styles/normal = SubResource( 70 )
+text = "Give Up"
+flat = true
+
+[node name="CRTScreen" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource( 2 )
+margin_right = 900.0
+margin_bottom = 700.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.25, 0.25 )
+script = ExtResource( 19 )
+
+[node name="CardHolder" type="Node2D" parent="."]
+position = Vector2( -48, 71 )
+rotation = -0.0306257
+script = ExtResource( 22 )
+canPick = true
+
+[node name="ChoiceCardHolder" type="Node2D" parent="CardHolder"]
+
+[node name="AttackCard" type="Sprite" parent="CardHolder/ChoiceCardHolder"]
+position = Vector2( -36.0283, 57.9239 )
+rotation = -0.388775
+texture = ExtResource( 2 )
+hframes = 3
+vframes = 2
+frame = 2
+script = ExtResource( 10 )
+
+[node name="Tween" type="Tween" parent="CardHolder/ChoiceCardHolder/AttackCard"]
+
+[node name="Area2D" type="Area2D" parent="CardHolder/ChoiceCardHolder/AttackCard"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/ChoiceCardHolder/AttackCard/Area2D"]
+position = Vector2( -0.376328, 0.146278 )
+polygon = PoolVector2Array( -16.6378, -25.2504, 16.4632, -25.8206, 17.5627, -11.0968, 8.07475, 27.3737, -16.5968, 26.2278 )
+
+[node name="Label" type="Label" parent="CardHolder/ChoiceCardHolder/AttackCard"]
+margin_left = -17.1015
+margin_top = -37.1868
+margin_right = 25.8985
+margin_bottom = -20.1868
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 50 )
+text = "Attack"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActCard" type="Sprite" parent="CardHolder/ChoiceCardHolder"]
+position = Vector2( -3.59136, 51.9144 )
+rotation = -0.138083
+texture = ExtResource( 2 )
+hframes = 3
+vframes = 2
+frame = 1
+script = ExtResource( 11 )
+
+[node name="Tween" type="Tween" parent="CardHolder/ChoiceCardHolder/ActCard"]
+
+[node name="Area2D" type="Area2D" parent="CardHolder/ChoiceCardHolder/ActCard"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/ChoiceCardHolder/ActCard/Area2D"]
+polygon = PoolVector2Array( -16.8399, -26.1996, -17.6848, 26.4054, 2.53496, 26.8062, 16.5095, -19.5048, 16.699, -26.5733 )
+
+[node name="Label" type="Label" parent="CardHolder/ChoiceCardHolder/ActCard"]
+margin_left = -15.9787
+margin_top = -37.2113
+margin_right = 27.0213
+margin_bottom = -20.2113
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 50 )
+text = "Act"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="CardHolder/ChoiceCardHolder/ActCard"]
+
+[node name="HealCard" type="Sprite" parent="CardHolder/ChoiceCardHolder"]
+position = Vector2( 26, 53 )
+rotation = 0.156833
+texture = ExtResource( 2 )
+hframes = 3
+vframes = 2
+frame = 4
+script = ExtResource( 12 )
+
+[node name="PotionNum" type="Label" parent="CardHolder/ChoiceCardHolder/HealCard"]
+margin_left = 8.25522
+margin_top = -25.4203
+margin_right = 48.2552
+margin_bottom = -8.42029
+rect_scale = Vector2( 0.8, 0.8 )
+custom_colors/font_color = Color( 0.0980392, 0.137255, 0.235294, 1 )
+custom_fonts/font = SubResource( 11 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="CardHolder/ChoiceCardHolder/HealCard"]
+
+[node name="Area2D" type="Area2D" parent="CardHolder/ChoiceCardHolder/HealCard"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/ChoiceCardHolder/HealCard/Area2D"]
+polygon = PoolVector2Array( -17.1753, -27.2337, -17.4484, 26.2259, 6.86422, 27.1731, 16.71, -14.3968, 17.1836, -26.5532 )
+
+[node name="Label" type="Label" parent="CardHolder/ChoiceCardHolder/HealCard"]
+margin_left = -15.2061
+margin_top = -35.5477
+margin_right = 27.7939
+margin_bottom = -18.5477
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 50 )
+text = "Heal"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="CardHolder/ChoiceCardHolder/HealCard"]
+
+[node name="RunCard" type="Sprite" parent="CardHolder/ChoiceCardHolder"]
+position = Vector2( 58, 61 )
+rotation = 0.383667
+texture = ExtResource( 2 )
+hframes = 3
+vframes = 2
+frame = 5
+script = ExtResource( 13 )
+
+[node name="Tween" type="Tween" parent="CardHolder/ChoiceCardHolder/RunCard"]
+
+[node name="Area2D" type="Area2D" parent="CardHolder/ChoiceCardHolder/RunCard"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/ChoiceCardHolder/RunCard/Area2D"]
+polygon = PoolVector2Array( -15.9206, -26.3137, -15.8686, 25.8878, 15.1462, 26.1826, 16.3782, -25.4264 )
+
+[node name="Label" type="Label" parent="CardHolder/ChoiceCardHolder/RunCard"]
+margin_left = -15.9787
+margin_top = -37.2113
+margin_right = 27.0213
+margin_bottom = -20.2113
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 50 )
+text = "Flee"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PickACardLabel" type="Label" parent="CardHolder/ChoiceCardHolder"]
+visible = false
+margin_left = -23.8269
+margin_top = 59.2982
+margin_right = 45.1731
+margin_bottom = 76.2982
+rect_rotation = 1.35143
+custom_fonts/font = SubResource( 49 )
+text = "Pick a Card"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttackCardHolder" type="Node2D" parent="CardHolder"]
+position = Vector2( 0, 64.97 )
+
+[node name="AttackCard1" type="Node2D" parent="CardHolder/AttackCardHolder"]
+position = Vector2( -36.028, 57.924 )
+rotation = -0.389208
+script = ExtResource( 23 )
+
+[node name="AttackNoCardFront" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard1"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -0.696365, 0.310844 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="DamageNo" type="Label" parent="CardHolder/AttackCardHolder/AttackCard1/AttackNoCardFront"]
+margin_left = 9.90506
+margin_top = -12.6372
+margin_right = 23.9051
+margin_bottom = 4.36279
+rect_scale = Vector2( -1.5, 1.5 )
+custom_colors/font_color = Color( 0.0980392, 0.137255, 0.235294, 1 )
+custom_fonts/font = SubResource( 29 )
+text = "20"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttackNoCardBack" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard1"]
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+
+[node name="CardBacklogo" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard1/AttackNoCardBack"]
+position = Vector2( -1.21689, -1.57211 )
+scale = Vector2( 0.23, 0.23 )
+texture = ExtResource( 27 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CardHolder/AttackCardHolder/AttackCard1"]
+anims/Flip = SubResource( 30 )
+anims/FlipReverse = SubResource( 41 )
+anims/RESET = SubResource( 31 )
+
+[node name="Card1Area2D" type="Area2D" parent="CardHolder/AttackCardHolder/AttackCard1"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/AttackCardHolder/AttackCard1/Card1Area2D"]
+position = Vector2( -0.376328, 0.146278 )
+polygon = PoolVector2Array( -16.6378, -25.2504, 16.4632, -25.8206, 17.5627, -11.0968, 8.07475, 27.3737, -16.5968, 26.2278 )
+
+[node name="Tween" type="Tween" parent="CardHolder/AttackCardHolder/AttackCard1"]
+
+[node name="Timer" type="Timer" parent="CardHolder/AttackCardHolder/AttackCard1"]
+
+[node name="AttackCard2" type="Node2D" parent="CardHolder/AttackCardHolder"]
+position = Vector2( -3.59137, 51.9144 )
+rotation = -0.138083
+script = ExtResource( 25 )
+
+[node name="AttackNoCardFront" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard2"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -0.985786, 0.167908 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+frame = 1
+
+[node name="DamageNo" type="Label" parent="CardHolder/AttackCardHolder/AttackCard2/AttackNoCardFront"]
+margin_left = 9.90506
+margin_top = -12.6372
+margin_right = 23.9051
+margin_bottom = 4.36279
+rect_scale = Vector2( -1.5, 1.5 )
+custom_colors/font_color = Color( 0.0980392, 0.137255, 0.235294, 1 )
+custom_fonts/font = SubResource( 29 )
+text = "20"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttackNoCardBack" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard2"]
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+frame = 1
+
+[node name="CardBacklogo" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard2/AttackNoCardBack"]
+position = Vector2( -1.21689, -1.57211 )
+scale = Vector2( 0.23, 0.23 )
+texture = ExtResource( 27 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CardHolder/AttackCardHolder/AttackCard2"]
+anims/Flip = SubResource( 32 )
+anims/FlipReverse = SubResource( 42 )
+anims/RESET = SubResource( 33 )
+
+[node name="Card2Area2D" type="Area2D" parent="CardHolder/AttackCardHolder/AttackCard2"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/AttackCardHolder/AttackCard2/Card2Area2D"]
+polygon = PoolVector2Array( -16.8399, -26.1996, -17.6848, 26.4054, 2.53496, 26.8062, 16.5095, -19.5048, 16.699, -26.5733 )
+
+[node name="Tween" type="Tween" parent="CardHolder/AttackCardHolder/AttackCard2"]
+
+[node name="Timer" type="Timer" parent="CardHolder/AttackCardHolder/AttackCard2"]
+
+[node name="AttackCard3" type="Node2D" parent="CardHolder/AttackCardHolder"]
+position = Vector2( 26, 53 )
+rotation = 0.156833
+script = ExtResource( 24 )
+
+[node name="AttackNoCardFront" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard3"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -0.605858, -0.0768738 )
+scale = Vector2( -1, 1 )
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="DamageNo" type="Label" parent="CardHolder/AttackCardHolder/AttackCard3/AttackNoCardFront"]
+margin_left = 9.90506
+margin_top = -12.6372
+margin_right = 23.9051
+margin_bottom = 4.36279
+rect_scale = Vector2( -1.5, 1.5 )
+custom_colors/font_color = Color( 0.0980392, 0.137255, 0.235294, 1 )
+custom_fonts/font = SubResource( 29 )
+text = "20"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttackNoCardBack" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard3"]
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="CardBacklogo" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard3/AttackNoCardBack"]
+position = Vector2( -1.21689, -1.57211 )
+scale = Vector2( 0.23, 0.23 )
+texture = ExtResource( 27 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CardHolder/AttackCardHolder/AttackCard3"]
+anims/Flip = SubResource( 34 )
+anims/FlipReverse = SubResource( 43 )
+anims/RESET = SubResource( 35 )
+
+[node name="Card3Area2D" type="Area2D" parent="CardHolder/AttackCardHolder/AttackCard3"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/AttackCardHolder/AttackCard3/Card3Area2D"]
+polygon = PoolVector2Array( -17.1753, -27.2337, -17.4484, 26.2259, 6.86422, 27.1731, 16.71, -14.3968, 17.1836, -26.5532 )
+
+[node name="Tween" type="Tween" parent="CardHolder/AttackCardHolder/AttackCard3"]
+
+[node name="Timer" type="Timer" parent="CardHolder/AttackCardHolder/AttackCard3"]
+
+[node name="AttackCard4" type="Node2D" parent="CardHolder/AttackCardHolder"]
+position = Vector2( 58, 61 )
+rotation = 0.383667
+script = ExtResource( 26 )
+
+[node name="AttackNoCardFront" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard4"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -0.788826, -0.29068 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
+texture = ExtResource( 18 )
+hframes = 2
+vframes = 2
+frame = 3
+
+[node name="DamageNo" type="Label" parent="CardHolder/AttackCardHolder/AttackCard4/AttackNoCardFront"]
+margin_left = 9.90506
+margin_top = -12.6372
+margin_right = 23.9051
+margin_bottom = 4.36279
+rect_scale = Vector2( -1.5, 1.5 )
+custom_colors/font_color = Color( 0.0980392, 0.137255, 0.235294, 1 )
+custom_fonts/font = SubResource( 29 )
+text = "20"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttackNoCardBack" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard4"]
+position = Vector2( 0.139053, 0.0637283 )
+texture = ExtResource( 18 )
+offset = Vector2( -0.139053, -0.0637283 )
+hframes = 2
+vframes = 2
+frame = 3
+
+[node name="CardBacklogo" type="Sprite" parent="CardHolder/AttackCardHolder/AttackCard4/AttackNoCardBack"]
+position = Vector2( -0.372055, -1.18738 )
+scale = Vector2( 0.23, 0.23 )
+texture = ExtResource( 27 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CardHolder/AttackCardHolder/AttackCard4"]
+anims/Flip = SubResource( 36 )
+anims/FlipReverse = SubResource( 44 )
+anims/RESET = SubResource( 37 )
+
+[node name="Card4Area2D" type="Area2D" parent="CardHolder/AttackCardHolder/AttackCard4"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CardHolder/AttackCardHolder/AttackCard4/Card4Area2D"]
+polygon = PoolVector2Array( -15.9206, -26.3137, -15.8686, 25.8878, 15.1462, 26.1826, 16.3782, -25.4264 )
+
+[node name="Tween" type="Tween" parent="CardHolder/AttackCardHolder/AttackCard4"]
+
+[node name="Timer" type="Timer" parent="CardHolder/AttackCardHolder/AttackCard4"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CardHolder"]
+anims/CardsDown = SubResource( 47 )
+anims/CardsUp = SubResource( 48 )
+anims/ExchangeAttack = SubResource( 38 )
+anims/ExchangeAttackReverse = SubResource( 39 )
+anims/RESET = SubResource( 40 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 4 )
+
+[node name="TransitionBox" type="ColorRect" parent="."]
+visible = false
+margin_left = -116.0
+margin_top = -91.0
+margin_right = 115.0
+margin_bottom = 92.0
+mouse_filter = 2
+color = Color( 0.0196078, 0.0235294, 0.0431373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TransitionBox"]
+autoplay = "FadeOut"
+anims/FadeOut = SubResource( 45 )
+anims/RESET = SubResource( 46 )
+
+[node name="InstructionButton" type="Sprite" parent="."]
+position = Vector2( 104, -77 )
+texture = ExtResource( 6 )
+hframes = 2
+vframes = 2
+frame = 3
+script = ExtResource( 31 )
+
+[node name="Area2D" type="Area2D" parent="InstructionButton"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InstructionButton/Area2D"]
+position = Vector2( 0, -0.5 )
+shape = SubResource( 52 )
+
+[node name="InstructionPage" type="Sprite" parent="InstructionButton"]
+visible = false
+position = Vector2( -106, 82 )
+texture = ExtResource( 21 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InstructionButton/InstructionPage"]
+margin_left = -93.0
+margin_top = -81.0
+margin_right = 94.0
+margin_bottom = 66.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = SubResource( 57 )
+text = "uyfyiyyufuyfyfy"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="animation_finished" from="PlayerInfoHolder/PlayerFace" to="PlayerInfoHolder" method="_on_PlayerFace_animation_finished"]
+[connection signal="text_entered" from="TextBoxHolder/TextBoxInput/Input" to="TextBoxHolder" method="_on_Input_text_entered"]
+[connection signal="animation_finished" from="MapBoxHolder2/AnimationPlayer" to="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/MapOjectHolder/MapEnemy" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="pressed" from="CanvasLayer/GameOverScreen/getUpButton" to="CanvasLayer/GameOverScreen" method="_on_getUpButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOverScreen/GiveUpButton" to="CanvasLayer/GameOverScreen" method="_on_GiveUpButton_pressed"]
+[connection signal="mouse_entered" from="CardHolder/ChoiceCardHolder/AttackCard/Area2D" to="CardHolder/ChoiceCardHolder/AttackCard" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/ChoiceCardHolder/AttackCard/Area2D" to="CardHolder/ChoiceCardHolder/AttackCard" method="_on_Area2D_mouse_exited"]
+[connection signal="mouse_entered" from="CardHolder/ChoiceCardHolder/ActCard/Area2D" to="CardHolder/ChoiceCardHolder/ActCard" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/ChoiceCardHolder/ActCard/Area2D" to="CardHolder/ChoiceCardHolder/ActCard" method="_on_Area2D_mouse_exited"]
+[connection signal="timeout" from="CardHolder/ChoiceCardHolder/ActCard/Timer" to="CardHolder/ChoiceCardHolder/ActCard" method="_on_Timer_timeout"]
+[connection signal="mouse_entered" from="CardHolder/ChoiceCardHolder/HealCard/Area2D" to="CardHolder/ChoiceCardHolder/HealCard" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/ChoiceCardHolder/HealCard/Area2D" to="CardHolder/ChoiceCardHolder/HealCard" method="_on_Area2D_mouse_exited"]
+[connection signal="timeout" from="CardHolder/ChoiceCardHolder/HealCard/Timer" to="CardHolder/ChoiceCardHolder/HealCard" method="_on_Timer_timeout"]
+[connection signal="mouse_entered" from="CardHolder/ChoiceCardHolder/RunCard/Area2D" to="CardHolder/ChoiceCardHolder/RunCard" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/ChoiceCardHolder/RunCard/Area2D" to="CardHolder/ChoiceCardHolder/RunCard" method="_on_Area2D_mouse_exited"]
+[connection signal="animation_finished" from="CardHolder/AttackCardHolder/AttackCard1/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard1" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="mouse_entered" from="CardHolder/AttackCardHolder/AttackCard1/Card1Area2D" to="CardHolder/AttackCardHolder/AttackCard1" method="_on_Card1Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/AttackCardHolder/AttackCard1/Card1Area2D" to="CardHolder/AttackCardHolder/AttackCard1" method="_on_Card1Area2D_mouse_exited"]
+[connection signal="timeout" from="CardHolder/AttackCardHolder/AttackCard1/Timer" to="CardHolder/AttackCardHolder/AttackCard1" method="_on_Timer_timeout"]
+[connection signal="animation_finished" from="CardHolder/AttackCardHolder/AttackCard2/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard2" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="mouse_entered" from="CardHolder/AttackCardHolder/AttackCard2/Card2Area2D" to="CardHolder/AttackCardHolder/AttackCard2" method="_on_Card2Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/AttackCardHolder/AttackCard2/Card2Area2D" to="CardHolder/AttackCardHolder/AttackCard2" method="_on_Card2Area2D_mouse_exited"]
+[connection signal="timeout" from="CardHolder/AttackCardHolder/AttackCard2/Timer" to="CardHolder/AttackCardHolder/AttackCard2" method="_on_Timer_timeout"]
+[connection signal="animation_finished" from="CardHolder/AttackCardHolder/AttackCard3/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard3" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="mouse_entered" from="CardHolder/AttackCardHolder/AttackCard3/Card3Area2D" to="CardHolder/AttackCardHolder/AttackCard3" method="_on_Card3Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/AttackCardHolder/AttackCard3/Card3Area2D" to="CardHolder/AttackCardHolder/AttackCard3" method="_on_Card3Area2D_mouse_exited"]
+[connection signal="timeout" from="CardHolder/AttackCardHolder/AttackCard3/Timer" to="CardHolder/AttackCardHolder/AttackCard3" method="_on_Timer_timeout"]
+[connection signal="animation_finished" from="CardHolder/AttackCardHolder/AttackCard4/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard4" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="mouse_entered" from="CardHolder/AttackCardHolder/AttackCard4/Card4Area2D" to="CardHolder/AttackCardHolder/AttackCard4" method="_on_Card4Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="CardHolder/AttackCardHolder/AttackCard4/Card4Area2D" to="CardHolder/AttackCardHolder/AttackCard4" method="_on_Card4Area2D_mouse_exited"]
+[connection signal="timeout" from="CardHolder/AttackCardHolder/AttackCard4/Timer" to="CardHolder/AttackCardHolder/AttackCard4" method="_on_Timer_timeout"]
+[connection signal="animation_finished" from="CardHolder/AnimationPlayer" to="CardHolder/ChoiceCardHolder/AttackCard" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="CardHolder/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard1" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="CardHolder/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard2" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="CardHolder/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard3" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="CardHolder/AnimationPlayer" to="CardHolder/AttackCardHolder/AttackCard4" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="mouse_entered" from="InstructionButton/Area2D" to="InstructionButton" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="InstructionButton/Area2D" to="InstructionButton" method="_on_Area2D_mouse_exited"]
+
+[editable path="BattleBoxHolder"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub6"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub7"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub8"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub9"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub10"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub11"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub12"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub13"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub14"]
+[editable path="MapBoxHolder2/ViewportContainer/Viewport/MapWorld/HubHolder/Hub14/Hub15"]
